@@ -1,0 +1,28 @@
+{
+  "name": "healthcaredapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@rk-10.github.com:rk-10/HealthCareDapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "dotenv": "^6.0.0",
+    "ethers": "^3.0.25",
+    "express": "^4.16.3",
+    "http-errors": "^1.6.3",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.2.4",
+    "morgan": "^1.9.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "web3": "^1.0.0-beta.34"
+  }
+}
