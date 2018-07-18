@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const passport = require('passport');
-const localStrategy = require('passport-local');
 const crypto = require('crypto');
 require('dotenv').config();
 
@@ -9,7 +7,6 @@ require('dotenv').config();
 let patientSchema = new Schema({
     username: {type: String, required: true},
     password: {type: String},
-    publicaddress: {type: String, unique: true, required: true},
     date: {type: Date, default: Date.now()}
 });
 
