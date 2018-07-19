@@ -11,12 +11,12 @@ let doctorSchema = new Schema({
     date: {type: Date, default: Date.now()}
 });
 
-doctorSchema.methods.ValidPassword = (pwd) => {
+doctorSchema.methods.ValidPassword = function(pwd) {
     let pass = crypto.createHmac('sha1', process.env.SECRETKEY).update(pwd).digest('hex');
     return this.password == pass;
 }
 
-doctorSchema.methods.SetPassword = (pwd) => {
+doctorSchema.methods.SetPassword = function(pwd)  {
     this.password = crypto.createHmac('sha1', process.env.SECRETKEY).update(pwd).digest('hex');
 }   
 

@@ -26,13 +26,21 @@ exports.getFixedGasPrice = () => {
     return utils.bigNumberify("20000000000");
 };
 
-exports.getContractInstance = (ABI, contractAddress) => {
+exports.getWeb3ContractInstance = (ABI, contractAddress) => {
     return new web3.eth.Contract(ABI, contractAddress);
 };
 
+exports.getEthersContractInstance = (ABI, contractAddress, wallet) => {
+  return new ethers.Contract(contractAddress, ABI, wallet);
+}
+
 exports.getWallet = (privateKey) => {
-    return new Wallet(privateKey)
+    return new Wallet(privateKey);
 };
+
+exports.getWalletWithProvider = (privateKey) => {
+  return new Wallet(privateKey, provider);
+}
 
 exports.getWeb3Provider = () => {
     return web3;

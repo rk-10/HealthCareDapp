@@ -311,7 +311,12 @@ exports.ABI = [
 	},
 	{
 		"constant": true,
-		"inputs": [],
+		"inputs": [
+			{
+				"name": "_patAddr",
+				"type": "address"
+			}
+		],
 		"name": "viewPatientDetails",
 		"outputs": [
 			{
@@ -341,12 +346,7 @@ exports.ABI = [
 	},
 	{
 		"constant": true,
-		"inputs": [
-			{
-				"name": "_patAddr",
-				"type": "address"
-			}
-		],
+		"inputs": [],
 		"name": "viewPatientDetails",
 		"outputs": [
 			{

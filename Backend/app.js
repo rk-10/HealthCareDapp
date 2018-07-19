@@ -62,10 +62,10 @@ router.use((req, res, next) => {
 });
 
 // importing and using the different routers
-let routers = require('./routes/index');
-router.use(routers);
-
-app.use('/', router);
+let doc_route = require('./Routes/doctor');
+let pat_route = require('./Routes/patient');
+app.use('/doctor', doc_route);
+app.use('/patient', pat_route);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
