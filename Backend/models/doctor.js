@@ -22,9 +22,8 @@ doctorSchema.methods.SetPassword = function(pwd)  {
 
 doctorSchema.methods.generateJWT = () => {
     let _data = {
+        _id: this._id,
         username: this.username,
-        password: this.password,
-        publicaddress: this.publicaddress
     }
     return jwt.sign({
         data: _data

@@ -23,10 +23,9 @@ patientSchema.methods.SetPassword = function(pwd) {
 
 patientSchema.methods.generateJWT = () => {
   let _data = {
-      username: this.username,
-      password: this.password,
-      publicaddress: this.publicaddress
-  }
+    _id: this._id,
+    username: this.username,
+}
   return jwt.sign({
       data: _data
   }, process.env.SECRETKEY, {expiresIn: '1h'})
