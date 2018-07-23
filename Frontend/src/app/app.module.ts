@@ -6,7 +6,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { DoctorComponent } from './doctor/doctor.component';
 import { PatientComponent } from './patient/patient.component';
-import { LoginComponent } from './doctor/login/login.component';
+import { DocLoginComponent } from './doctor/doc-login/doc-login.component';
+import { PatLoginComponent } from './patient/pat-login/pat-login.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { LoginComponent } from './doctor/login/login.component';
     HomeComponent,
     DoctorComponent,
     PatientComponent,
-    LoginComponent
+    DocLoginComponent,
+    PatLoginComponent
   ],
   imports: [
     BrowserModule,
