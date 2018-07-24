@@ -1,7 +1,7 @@
 <div>
-  <form>
+  <form #myform="ngForm" (ngSubmit)="bla()">
     <input type="text" placeholder="Username">
     <input type="password" placeholder="password">
-    <input type="submit" placeholder="Submit">
+    <button type="submit" [disabled]="!myform.form.valid">Submit</button>
   </form>
 </div>
