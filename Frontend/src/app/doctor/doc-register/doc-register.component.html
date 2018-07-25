@@ -1,0 +1,8 @@
+<div>
+  <h5>Registeration Form</h5>
+  <form #regform="ngForm" (ngSubmit)="Register()">
+    <input type="text" name="username" placeholder="Username" [(ngModel)]="credentials.username">
+    <input type="password" name="password" placeholder="password" [(ngModel)]="credentials.password">
+    <button type="submit" [disabled]="!regform.form.valid">Submit</button>
+  </form>
+</div>

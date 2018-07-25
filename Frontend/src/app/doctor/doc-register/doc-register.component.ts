@@ -20,12 +20,13 @@ export interface AuthPayload {
   username: string;
   password: string;
 };
+
 @Component({
-  selector: 'app-doc-login',
-  templateUrl: './doc-login.component.html',
-  styleUrls: ['./doc-login.component.css']
+  selector: 'app-doc-register',
+  templateUrl: './doc-register.component.html',
+  styleUrls: ['./doc-register.component.css']
 })
-export class DocLoginComponent implements OnInit {
+export class DocRegisterComponent implements OnInit {
   private token: string;
 
   credentials: AuthPayload = {
@@ -38,13 +39,11 @@ export class DocLoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  Login() {
-    this.login(this.credentials).subscribe((res) => {
+  Register() {
+    this.register(this.credentials).subscribe((res) => {
       if(res.status) {
-        console.log(res);
-        console.log('Successfully logged in')
-        this.saveToken(res.authorization);
-        this.router.navigateByUrl('/doctor/records')
+        console.log('successfully registered')
+        this.router.navigateByUrl('/doctor/login');
       }
     }, (err) => {
       console.log('Error occured', err);
@@ -69,11 +68,11 @@ export class DocLoginComponent implements OnInit {
     this.router.navigateByUrl('/');
   }
 
-  private login(auth: AuthPayload): Observable<any> {
+  private register(auth: AuthPayload): Observable<any> {
     let base;
-    base = this.http.post(environment.server + 'doctor/login', auth);
+    base = this.http.post(environment.server + 'doctor/register', auth);
     console.log(base);
-    console.log('adfasddsaf')
+    console.log('register called')
     const request = base.pipe(
       map((data: TokenRes) => {
         if(data.token) {

@@ -1,7 +1,14 @@
 <div>
-  <form #myform="ngForm" (ngSubmit)="bla()">
-    <input type="text" placeholder="Username">
-    <input type="password" placeholder="password">
+  <form #myform="ngForm" (ngSubmit)="Login()">
+    <input type="text" name="username" placeholder="Username" [(ngModel)]="credentials.username">
+    <input type="password" name="password" placeholder="password" [(ngModel)]="credentials.password">
     <button type="submit" [disabled]="!myform.form.valid">Submit</button>
   </form>
+</div>
+
+<div>
+  <h5>Not Registered? Sign up Here!</h5>
+  <nav>
+    <a routerLink="/doctor/register">Doctor</a>
+  </nav>
 </div>

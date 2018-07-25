@@ -3,6 +3,7 @@ const express = require('express');
 let mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 let morgan = require('morgan');
+let cors = require('cors');
 const _ = require('lodash');
 // let debug = require('debug')('Frontend:server');
 
@@ -10,6 +11,7 @@ require('dotenv').config();
 
 var app = require('express')();
 
+app.use(cors());
 app.use(express.json({ extended: true}));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :date[clf]'));
