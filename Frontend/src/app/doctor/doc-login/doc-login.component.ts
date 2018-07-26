@@ -33,6 +33,9 @@ export class DocLoginComponent implements OnInit {
     password: ''
   }
 
+  public errorMessage = '';
+  public isPassword: boolean;
+
   constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
@@ -41,6 +44,7 @@ export class DocLoginComponent implements OnInit {
   Login() {
     this.login(this.credentials).subscribe((res) => {
       if(res.status) {
+        this.isPassword = true;
         console.log(res);
         console.log('Successfully logged in')
         this.saveToken(res.authorization);
@@ -48,6 +52,11 @@ export class DocLoginComponent implements OnInit {
       }
     }, (err) => {
       console.log('Error occured', err);
+      if(err.status === 401){
+        this.isPassword = false;
+        this.errorMessage = err.error.message;
+      // location.reload();
+      }
     })
   }
 
@@ -78,6 +87,7 @@ export class DocLoginComponent implements OnInit {
       map((data: TokenRes) => {
         if(data.token) {
           this.saveToken(data.token)
+          this.router.navigateByUrl('/doctor/records')
         }
         return data
       })

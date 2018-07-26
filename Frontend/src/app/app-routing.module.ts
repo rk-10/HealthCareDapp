@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from "@angular/router";
+import { RouterModule, Routes, CanActivate } from "@angular/router";
 import { HomeComponent }  from './home/home.component';
 import { DoctorComponent } from './doctor/doctor.component';
 import { PatientComponent } from './patient/patient.component';
 import { DocRegisterComponent } from './doctor/doc-register/doc-register.component';
 import { DocRecordsComponent } from './doctor/doc-records/doc-records.component';
+import { AuthguardService } from './authguard.service'
 
 
 const routes: Routes = [
@@ -13,7 +14,7 @@ const routes: Routes = [
   { path: 'doctor', redirectTo: '/doctor/login', pathMatch: 'full'},
   { path: 'doctor/login', component: DoctorComponent},
   { path: 'doctor/register', component: DocRegisterComponent},
-  { path: 'doctor/records', component: DocRecordsComponent},
+  { path: 'doctor/records', component: DocRecordsComponent, canActivate: [AuthguardService]},
   { path: 'patient', redirectTo: '/patient/login', pathMatch: 'full'},
   { path: 'patient/login', component: PatientComponent}
 ];
