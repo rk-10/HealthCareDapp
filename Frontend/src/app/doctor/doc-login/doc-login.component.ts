@@ -82,7 +82,6 @@ export class DocLoginComponent implements OnInit {
     let base;
     base = this.http.post(environment.server + 'doctor/login', auth);
     console.log(base);
-    console.log('adfasddsaf')
     const request = base.pipe(
       map((data: TokenRes) => {
         if(data.token) {

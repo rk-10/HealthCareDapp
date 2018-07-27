@@ -48,6 +48,10 @@ export class DocRecordsComponent implements OnInit {
     this.router.navigateByUrl('/');
   }
 
+  Records() {
+    this.AddRecord(this.credentials);
+  }
+
   private AddRecord(payload: RecordPayload): Observable<any> {
     let base;
     base = this.http.post(environment.server + 'doctor/addRecords', payload);
