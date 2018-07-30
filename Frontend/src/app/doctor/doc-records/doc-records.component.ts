@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable } from '../../../../node_modules/rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
@@ -20,6 +20,8 @@ export interface RecordPayload {
   styleUrls: ['./doc-records.component.css']
 })
 export class DocRecordsComponent implements OnInit {
+
+  public token: string;
 
   credentials: RecordPayload = {
     id: '',
@@ -49,16 +51,31 @@ export class DocRecordsComponent implements OnInit {
   }
 
   Records() {
-    this.AddRecord(this.credentials);
+    this.AddRecord(this.credentials).subscribe((res) => {
+      console.log(res)
+    })
   }
 
+  private getToken(): string {
+    if(!this.token) {
+      this.token = localStorage.getItem('x-access-token');
+    }
+    return this.token;  
+  }
+  
   private AddRecord(payload: RecordPayload): Observable<any> {
     let base;
-    base = this.http.post(environment.server + 'doctor/addRecords', payload);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'x-access-token': this.getToken()
+      })
+    }
+    base = this.http.post(environment.server + 'doctor/addRecords', payload, httpOptions);
     console.log(base);
     const request = base.pipe(
       map((data) => {
         console.log(data)
+        return data
       })
     )
     return request;

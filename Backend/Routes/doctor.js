@@ -1,5 +1,6 @@
 let express = require('express');
 let router = express.Router();
+let jwt = require('jsonwebtoken');
 let controller = require('../Controllers/docController');
 
 router.post('^/register$', controller.Register);

@@ -111,7 +111,7 @@ exports.AddRecords = (req,res) => {
   }
 
   let responseData = {};
-
+  
   let transaction = {};
   let value = '0';
   let gasPrice = etherUtils.getFixedGasPrice();

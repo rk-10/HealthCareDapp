@@ -1,14 +1,17 @@
-<p>
-  doc-records works!
-</p>
-
 <div>
-  <form #recordsform="ngForm" (ngSubmit)="Records()">
+  <h3>Add Records</h3>
+  <form #recordsform="ngForm" (ngSubmit)="Records()" class="recordsform" style="height: 200px">
+    <label>Id</label>
     <input type="text" name="id" placeholder="ID" [(ngModel)]="credentials.id">
+    <label>Public Key</label>
     <input type="text" name="publicKey" placeholder="Public Key" [(ngModel)]="credentials.publicKey">
+    <label>Name</label>
     <input type="text" name="name" placeholder="Name" [(ngModel)]="credentials.name">
+    <label>Phone Number</label>
     <input type="number" name="number" placeholder="Number" [(ngModel)]="credentials.number">
+    <label>Home Address</label>
     <input type="text" name="address" placeholder="Address" [(ngModel)]="credentials.address">
+    <label>Email ID</label>
     <input type="text" name="email" placeholder="Email" [(ngModel)]="credentials.email">
     <button type="submit" [disabled]="!recordsform.form.valid">Submit</button>
   </form>
