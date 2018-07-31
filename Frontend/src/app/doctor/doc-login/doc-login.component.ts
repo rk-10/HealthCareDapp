@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+// import {ToastModule} from 'primeng/toast';
+import {MessageService} from 'primeng/api';
 
 export interface UserDetails {
   _id: string;
@@ -33,18 +35,30 @@ export class DocLoginComponent implements OnInit {
     password: ''
   }
 
-  public errorMessage = '';
-  public isPassword: boolean;
-
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private messageService: MessageService) { }
 
   ngOnInit() {
+  }
+
+  addSuccessMessage() {
+    this.messageService.add({key:'status', severity:'success', summary:'Logged In', detail:'Successfully Logged in'});
+  }
+
+  addErrorMessage(Error: string) {
+    this.messageService.add({key:'status', severity:'error', summary:'Wrong Password', detail:'Please enter correct password'});
+  }
+  // addMultiple() {
+  //     this.messageService.addAll([{severity:'success', summary:'Service Message', detail:'Via MessageService'},
+  //                                 {severity:'info', summary:'Info Message', detail:'Via MessageService'}]);
+  // }
+
+  clear() {
+      this.messageService.clear();
   }
 
   Login() {
     this.login(this.credentials).subscribe((res) => {
       if(res.status) {
-        this.isPassword = true;
         console.log(res);
         console.log('Successfully logged in')
         this.saveToken(res.authorization);
@@ -53,8 +67,7 @@ export class DocLoginComponent implements OnInit {
     }, (err) => {
       console.log('Error occured', err);
       if(err.status === 401){
-        this.isPassword = false;
-        this.errorMessage = err.error.message;
+        this.addErrorMessage(err)
       // location.reload();
       }
     })

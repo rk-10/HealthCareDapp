@@ -1,7 +1,14 @@
+<p-toast position="top-right" key="status" [modal]="true">
+  <ng-template let message pTemplate="message">
+      <div style="text-align: center">
+          <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+          <h3>{{message.summary}}</h3>
+          <p>{{message.detail}}</p>
+      </div>
+  </ng-template>
+</p-toast>
+
 <div>
-    <div *ngIf="!isPassword">
-        {{errorMessage}}
-    </div>
   <form #myform="ngForm" (ngSubmit)="Login()">
     <input type="text" name="username" placeholder="Username" [(ngModel)]="credentials.username">
     <input type="password" name="password" placeholder="password" [(ngModel)]="credentials.password">
@@ -12,6 +19,6 @@
 <div>
   <h5>Not Registered? Sign up Here!</h5>
   <nav>
-    <a routerLink="/doctor/register">Doctor</a>
+    <a routerLink="/doctor/register">Sign Up</a>
   </nav>
 </div>

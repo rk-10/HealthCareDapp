@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable } from '../../../../node_modules/rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import {MessageService} from 'primeng/api';
 
 export interface RecordPayload {
   id: string,
@@ -35,9 +36,25 @@ export class DocRecordsComponent implements OnInit {
   public errorMessage: '';
   public successMessage: '';
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private messageService: MessageService) { }
 
   ngOnInit() {
+  }
+
+  addSuccessMessage(hash: string) {
+    this.messageService.add({key:'status', severity:'success', summary:'Successfully done', detail:'Your tx hash is ' + hash});
+  }
+
+  addErrorMessage(Error: string) {
+    this.messageService.add({key:'status', severity:'error', summary:'Error while hitting api', detail:'Error'});
+  }
+  // addMultiple() {
+  //     this.messageService.addAll([{severity:'success', summary:'Service Message', detail:'Via MessageService'},
+  //                                 {severity:'info', summary:'Info Message', detail:'Via MessageService'}]);
+  // }
+
+  clear() {
+      this.messageService.clear();
   }
 
   Logout() {
