@@ -48,10 +48,6 @@ export class DocRecordsComponent implements OnInit {
   addErrorMessage(Error: string) {
     this.messageService.add({key:'status', severity:'error', summary:'Error while hitting api', detail:'Error'});
   }
-  // addMultiple() {
-  //     this.messageService.addAll([{severity:'success', summary:'Service Message', detail:'Via MessageService'},
-  //                                 {severity:'info', summary:'Info Message', detail:'Via MessageService'}]);
-  // }
 
   clear() {
       this.messageService.clear();

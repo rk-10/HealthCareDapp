@@ -47,10 +47,6 @@ export class DocLoginComponent implements OnInit {
   addErrorMessage(Error: string) {
     this.messageService.add({key:'status', severity:'error', summary:'Wrong Password', detail:'Please enter correct password'});
   }
-  // addMultiple() {
-  //     this.messageService.addAll([{severity:'success', summary:'Service Message', detail:'Via MessageService'},
-  //                                 {severity:'info', summary:'Info Message', detail:'Via MessageService'}]);
-  // }
 
   clear() {
       this.messageService.clear();
