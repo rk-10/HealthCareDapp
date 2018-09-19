@@ -1,5 +1,5 @@
 let etherUtils = require('./etherUtils');
-let contractABI = require('../ABI/HealthCareABI').ABI;
+let contractABI = require('../ABI/healthcareABI').ABI;
 let Patient = require('../models/patient');
 let nonceValue = require('../models/nonce');
 

@@ -1,15 +1,15 @@
 const createError = require('http-errors');
 const express = require('express');
-let mongoose = require('mongoose');
+const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
-let morgan = require('morgan');
-let cors = require('cors');
+const morgan = require('morgan');
+const cors = require('cors');
 const _ = require('lodash');
 // let debug = require('debug')('Frontend:server');
 
 require('dotenv').config();
 
-var app = require('express')();
+const app = require('express')();
 
 app.use(cors());
 app.use(express.json({ extended: true}));
@@ -19,7 +19,7 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :d
 mongoose.Promise = global.Promise;
 //Mongoose Setup
 // =============================================================================
-let checkAndConnectDb = () => {
+const checkAndConnectDb = () => {
     // Connect To Database
     mongoose.connect(process.env.DB, function (err) {
         if (err) {
@@ -64,8 +64,8 @@ router.use((req, res, next) => {
 });
 
 // importing and using the different routers
-let doc_route = require('./routes/doctor');
-let pat_route = require('./routes/patient');
+const doc_route = require('./routes/doctor');
+const pat_route = require('./routes/patient');
 app.use('/doctor', doc_route);
 app.use('/patient', pat_route);
 

@@ -1,14 +1,14 @@
-let express = require('express');
-let router = express.Router();
-let jwt = require('jsonwebtoken');
-let controller = require('../controllers/docController');
+const express = require('express');
+const router = express.Router();
+const jwt = require('jsonwebtoken');
+const controller = require('../controllers/docController');
 
 router.post('^/register$', controller.Register);
 router.post('^/login$', controller.Login);
 
 //middleware
-let auth = (req,res,next) => {
-  let token = req.body.token || req.params.token || req.headers['x-access-token'];
+const auth = (req,res,next) => {
+  const token = req.body.token || req.params.token || req.headers['x-access-token'];
   if(token) {
     jwt.verify(token, process.env.SECRETKEY, (err,decoded) => {
       if(err) {
@@ -28,7 +28,7 @@ let auth = (req,res,next) => {
       message: 'Token not provided'
     })
   }
-}
+};
 
 router.post('^/addRecords$', auth, controller.AddRecords);
 router.post('^/docDetails$', auth, controller.getDoctorDetails);

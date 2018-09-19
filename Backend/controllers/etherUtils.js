@@ -4,8 +4,8 @@ const providers = ethers.providers;
 const utils = ethers.utils;
 const Wallet = ethers.Wallet;
 
-let provider = new providers.JsonRpcProvider(process.env.INFURA);
-let web3 = new Web3(new Web3.providers.HttpProvider(process.env.INFURA));
+const provider = new providers.JsonRpcProvider(process.env.INFURA);
+const web3 = new Web3(new Web3.providers.HttpProvider(process.env.INFURA));
 
 
 exports.getTransactionCount_ = (address) => {
@@ -32,7 +32,7 @@ exports.getWeb3ContractInstance = (ABI, contractAddress) => {
 
 exports.getEthersContractInstance = (ABI, contractAddress, wallet) => {
   return new ethers.Contract(contractAddress, ABI, wallet);
-}
+};
 
 exports.getWallet = (privateKey) => {
     return new Wallet(privateKey);
@@ -40,7 +40,7 @@ exports.getWallet = (privateKey) => {
 
 exports.getWalletWithProvider = (privateKey) => {
   return new Wallet(privateKey, provider);
-}
+};
 
 exports.getWeb3Provider = () => {
     return web3;

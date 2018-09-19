@@ -1,31 +1,33 @@
-let etherUtils = require('./etherUtils');
-let contractABI = require('../ABI/HealthCareABI').ABI;
-let Doctor = require('../models/doctor');
-let nonceValue = require('../models/nonce');
+const etherUtils = require('./etherUtils');
+const contractABI = require('../ABI/healthcareABI').ABI;
+const Doctor = require('../models/doctor');
+const nonceValue = require('../models/nonce');
 
-ParamError = (_param, res) => {
+
+const ParamError = (_param, res) => {
   res.status(400).json({
     status: false,
     message: `${_param} not provided`
   })
-}
+};
+
 
 exports.Register = (req, res) => {
-  let username = req.body.username;
-  let password = req.body.password;
+  const username = req.body.username;
+  const password = req.body.password;
   
-  if(username == undefined || username == null || username == '') {
-    ParamError('Username', res)
-  } else if (password == undefined || password == null || password == '') {
-    ParamError('Password', res)
+  if(username === undefined || username === null || username === '') {
+    ParamError('Username', res);
+  } else if (password === undefined || password === null || password === '') {
+    ParamError('Password', res);
   } else {
-    let doctor = new Doctor();
+    const doctor = new Doctor();
     doctor.username = username;
     doctor.SetPassword(password);
 
     doctor.save()
     .then(() => {
-      let token = doctor.generateJWT();
+      const token = doctor.generateJWT();
       res.status(200).json({
         status: true,
         authorization: token,
@@ -40,22 +42,23 @@ exports.Register = (req, res) => {
       })
     })
   }
-}
+};
+
 
 exports.Login = (req,res) => {
-  let username = req.body.username;
-  let password = req.body.password;
+  const username = req.body.username;
+  const password = req.body.password;
 
-  if(username == undefined || username == null || username == '') {
+  if(username === undefined || username === null || username === '') {
     ParamError('Username', res)
   } 
-  if (password == undefined || password == null || password == '') {
+  if (password === undefined || password === null || password === '') {
     ParamError('Password', res)
   } 
   Doctor.findOne({username: username})
   .then((doc) => {
     if(doc.ValidPassword(password)) {
-      let token = doc.generateJWT();
+      const token = doc.generateJWT();
       res.status(200).json({
         status: true,
         authorization: token,
@@ -70,21 +73,21 @@ exports.Login = (req,res) => {
     }
   })
   .catch((err) => {
-    console.log('Error occured' + err)
+    console.log('Error occured' + err);
     res.status(401).json({
       status: false,
       message: 'User not found. Please register first!!'
     })
   })
-}
+};
 
 exports.AddRecords = (req,res) => {
-  let id = req.body.id;
-  let publicKey = req.body.publicKey;
-  let name = req.body.name;
-  let number = req.body.number;
-  let address = req.body.address;
-  let email = req.body.email;
+  const id = req.body.id;
+  const publicKey = req.body.publicKey;
+  const name = req.body.name;
+  const number = req.body.number;
+  const address = req.body.address;
+  const email = req.body.email;
 
   if(id == undefined || id == null || id == '') {
     ParamError('id', res);
@@ -149,11 +152,11 @@ exports.AddRecords = (req,res) => {
     transaction.data = etherUtils.getWeb3ContractInstance(contractABI, contractAddress)
         .methods.addDoctor(publicKey, id, name, email, number, address, []).encodeABI();
 
-    let signedTransaction = wallet.sign(transaction);
+    const signedTransaction = wallet.sign(transaction);
     return signedTransaction
   })
   .then((signedTx) => {
-    let etherProvider = etherUtils.getEtherProvider();
+    const etherProvider = etherUtils.getEtherProvider();
     return etherProvider.sendTransaction(signedTx);
   })
   .then((_txHash) => {
@@ -165,7 +168,7 @@ exports.AddRecords = (req,res) => {
     return nonceValue.update({key: 'previousNonce'}, {value: nonce}, {upsert: true, new: true}); 
   })
   .then(() => {
-    console.log('Nonce value has been updated')
+    console.log('Nonce value has been updated');
   })
   .catch((err) => {
     console.log('Some error occurred during the process: '+ err);
@@ -174,12 +177,12 @@ exports.AddRecords = (req,res) => {
       message: 'Transaction could not be published. Some error occurred!!'
     });
   })
-}
+};
 
 exports.getDoctorDetails = (req,res) => {
-  let docPubKey = req.body.docPubKey;
+  const docPubKey = req.body.docPubKey;
 
-  if(docPubKey == undefined || docPubKey == null || docPubKey == '') {
+  if(docPubKey === undefined || docPubKey === null || docPubKey === '') {
     ParamError('docPubKey', res);
   }
 
@@ -211,28 +214,28 @@ exports.getDoctorDetails = (req,res) => {
       message: 'Some error occured while fetching data' + err
     })
   })
-}
+};
 
 exports.getDoctorPatientDetails = (req,res) => {
-  let docPubKey = req.body.docPubKey;
-  let patPubKey = req.body.patPubKey;
+  const docPubKey = req.body.docPubKey;
+  const patPubKey = req.body.patPubKey;
 
-  if(docPubKey == undefined || docPubKey == null || docPubKey == '') {
+  if(docPubKey === undefined || docPubKey === null || docPubKey === '') {
     ParamError('docPubKey', res);
   }
 
-  if(patPubKey == undefined || patPubKey == null || patPubKey == '') {
+  if(patPubKey === undefined || patPubKey === null || patPubKey === '') {
     ParamError('docPubKey', res);
   }
 
-  let wallet = etherUtils.getWalletWithProvider(process.env.FromADDRpri);
-  let contract = etherUtils.getEthersContractInstance(contractABI, process.env.ContractADDR, wallet);
+  const wallet = etherUtils.getWalletWithProvider(process.env.FromADDRpri);
+  const contract = etherUtils.getEthersContractInstance(contractABI, process.env.ContractADDR, wallet);
 
   contract.viewDoctorsPatientDetails(docPubKey, patPubKey)
   .then((_details) => {
     console.log(`Patient details are ${_details}`);
     let data = {};
-    data.id = Number(_details[0])
+    data.id = Number(_details[0]);
     data.name = _details[1];
     data.email = _details[2];
     data.number = Number(_details[3]);
@@ -250,4 +253,4 @@ exports.getDoctorPatientDetails = (req,res) => {
       message: 'Some error occured while fetching data' + err
     })
   })
-}
+};
