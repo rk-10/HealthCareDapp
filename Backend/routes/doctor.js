@@ -1,7 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let jwt = require('jsonwebtoken');
-let controller = require('../Controllers/patController');
+let controller = require('../controllers/docController');
 
 router.post('^/register$', controller.Register);
 router.post('^/login$', controller.Login);
@@ -31,8 +31,8 @@ let auth = (req,res,next) => {
 }
 
 router.post('^/addRecords$', auth, controller.AddRecords);
-router.post('^/patDetails$', auth, controller.getPatientDetails);
-router.post('^/share$', auth, controller.shareDetailsWithDoc);
+router.post('^/docDetails$', auth, controller.getDoctorDetails);
+router.post('^/patientDetails$', auth, controller.getDoctorPatientDetails);
 
 
 module.exports = router;

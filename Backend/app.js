@@ -64,8 +64,8 @@ router.use((req, res, next) => {
 });
 
 // importing and using the different routers
-let doc_route = require('./Routes/doctor');
-let pat_route = require('./Routes/patient');
+let doc_route = require('./routes/doctor');
+let pat_route = require('./routes/patient');
 app.use('/doctor', doc_route);
 app.use('/patient', pat_route);
 
