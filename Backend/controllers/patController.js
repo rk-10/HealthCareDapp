@@ -1,22 +1,22 @@
-let etherUtils = require('./etherUtils');
-let contractABI = require('../ABI/healthcareABI').ABI;
-let Patient = require('../models/patient');
-let nonceValue = require('../models/nonce');
+const etherUtils = require('./etherUtils');
+const contractABI = require('../ABI/healthcareABI').ABI;
+const Patient = require('../models/patient');
+const nonceValue = require('../models/nonce');
 
-ParamError = (_param, res) => {
+const ParamError = (_param, res) => {
   res.status(400).json({
     status: false,
     message: `${_param} not provided`
   })
-}
+};
 
 exports.Register = (req, res) => {
-  let username = req.body.username;
-  let password = req.body.password;
+  const username = req.body.username;
+  const password = req.body.password;
   
-  if(username == undefined || username == null || username == '') {
+  if(username === undefined || username === null || username === '') {
     ParamError('Username', res)
-  } else if (password == undefined || password == null || password == '') {
+  } else if (password === undefined || password === null || password === '') {
     ParamError('Password', res)
   } else {
     let patient = new Patient();
@@ -25,7 +25,7 @@ exports.Register = (req, res) => {
 
     patient.save()
     .then(() => {
-      let token = patient.generateJWT();
+      const token = patient.generateJWT();
       res.status(200).json({
         status: true,
         authorization: token,
@@ -40,22 +40,23 @@ exports.Register = (req, res) => {
       })
     })
   }
-}
+};
 
 exports.Login = (req,res) => {
-  let username = req.body.username;
-  let password = req.body.password;
+  const username = req.body.username;
+  const password = req.body.password;
 
-  if(username == undefined || username == null || username == '') {
+  if(username === undefined || username === null || username === '') {
     ParamError('Username', res)
   } 
-  if (password == undefined || password == null || password == '') {
+  if (password === undefined || password === null || password === '') {
     ParamError('Password', res)
-  } 
+  }
+
   Patient.findOne({username: username})
   .then((pat) => {
     if(pat.ValidPassword(password)) {
-      let token = pat.generateJWT();
+      const token = pat.generateJWT();
       res.status(200).json({
         status: true,
         authorization: token,
@@ -70,43 +71,43 @@ exports.Login = (req,res) => {
     }
   })
   .catch((err) => {
-    console.log('Error occured' + err)
+    console.log('Error occured' + err);
     res.status(401).json({
       status: false,
       message: 'User not found. Please register first!!'
     })
   })
-}
+};
 
 exports.AddRecords = (req,res) => {
-  let id = req.body.id;
-  let publicKey = req.body.publicKey;
-  let name = req.body.name;
-  let number = req.body.number;
-  let address = req.body.address;
-  let email = req.body.email;
+  const id = req.body.id;
+  const publicKey = req.body.publicKey;
+  const name = req.body.name;
+  const number = req.body.number;
+  const address = req.body.address;
+  const email = req.body.email;
 
-  if(id == undefined || id == null || id == '') {
+  if(id === undefined || id === null || id === '') {
     ParamError('id', res);
   }
 
-  if(publicKey == undefined || publicKey == null || publicKey == '') {
+  if(publicKey === undefined || publicKey === null || publicKey === '') {
     ParamError('publicKey', res);
   }
 
-  if(name == undefined || name == null || name == '') {
+  if(name === undefined || name === null || name === '') {
     ParamError('name', res);
   }
 
-  if(number == undefined || number == null || number == '') {
+  if(number === undefined || number === null || number === '') {
     ParamError('number', res);
   }
 
-  if(address == undefined || address == null || address == '') {
+  if(address === undefined || address === null || address === '') {
     ParamError('address', res);
   }
 
-  if(email == undefined || email == null  || email == '') {
+  if(email === undefined || email === null  || email === '') {
     ParamError('email', res);
   }
 
@@ -138,8 +139,8 @@ exports.AddRecords = (req,res) => {
         nonce = previousNonce + 1;
     }
     
-    let contractAddress = process.env.ContractADDR;
-    let wallet = etherUtils.getWallet(process.env.FromADDRpri);
+    const contractAddress = process.env.ContractADDR;
+    const wallet = etherUtils.getWallet(process.env.FromADDRpri);
     console.log(contractAddress);
 
     transaction.nonce = nonce;
@@ -150,18 +151,18 @@ exports.AddRecords = (req,res) => {
     transaction.data = etherUtils.getWeb3ContractInstance(contractABI, contractAddress)
         .methods.addPatient(publicKey, id, name, email, number, address).encodeABI();
 
-    let signedTransaction = wallet.sign(transaction);
+    const signedTransaction = wallet.sign(transaction);
     return signedTransaction
   })
   .then((signedTx) => {
-    let etherProvider = etherUtils.getEtherProvider();
+    const etherProvider = etherUtils.getEtherProvider();
     return etherProvider.sendTransaction(signedTx);
   })
   .then((_txHash) => {
     console.log(`TX hash is ${_txHash}`);
     responseData.txHash = _txHash;
     responseData.status = true;
-    responseData.message = 'Transaction has been published'
+    responseData.message = 'Transaction has been published';
     res.status(200).json(responseData);
     return nonceValue.update({key: 'previousNonce'}, {value: nonce}, {upsert: true, new: true}); 
   })
@@ -175,24 +176,24 @@ exports.AddRecords = (req,res) => {
       message: 'Transaction could not be published. Some error occurred!!'
     });
   })
-}
+};
 
 exports.getPatientDetails = (req,res) => {
-  let patPubKey = req.body.patPubKey;
+  const patPubKey = req.body.patPubKey;
 
-  if(patPubKey == undefined || patPubKey == null || patPubKey == '') {
+  if(patPubKey === undefined || patPubKey === null || patPubKey === '') {
     ParamError('patPubKey', res);
   }
 
-  let wallet = etherUtils.getWalletWithProvider(process.env.FromADDRpri);
-  let contract = etherUtils.getEthersContractInstance(contractABI, process.env.ContractADDR, wallet);
+  const wallet = etherUtils.getWalletWithProvider(process.env.FromADDRpri);
+  const contract = etherUtils.getEthersContractInstance(contractABI, process.env.ContractADDR, wallet);
 
   contract.viewPatientDetails(patPubKey)
   .then((_details) => {
     console.log(`Patient details are ${_details}`);
     let data = {};
     
-    data.id = Number(_details[0])
+    data.id = Number(_details[0]);
     data.name = _details[1];
     data.email = _details[2];
     data.number = Number(_details[3]);
@@ -211,17 +212,17 @@ exports.getPatientDetails = (req,res) => {
       message: 'Some error occured while fetching data' + err
     })
   })
-}
+};
 
 exports.shareDetailsWithDoc = (req,res) => {
-  let docPubKey = req.body.docPubKey;
-  let patPubKey = req.body.patPubKey;
+  const docPubKey = req.body.docPubKey;
+  const patPubKey = req.body.patPubKey;
 
-  if(docPubKey == undefined || docPubKey == null || docPubKey == '') {
+  if(docPubKey === undefined || docPubKey === null || docPubKey === '') {
     ParamError('docPubKey', res);
   }
 
-  if(patPubKey == undefined || patPubKey == null || patPubKey == '') {
+  if(patPubKey === undefined || patPubKey === null || patPubKey === '') {
     ParamError('docPubKey', res);
   }
 
@@ -253,8 +254,8 @@ exports.shareDetailsWithDoc = (req,res) => {
         nonce = previousNonce + 1;
     }
     
-    let contractAddress = process.env.ContractADDR;
-    let wallet = etherUtils.getWallet(process.env.FromADDRpri);
+    const contractAddress = process.env.ContractADDR;
+    const wallet = etherUtils.getWallet(process.env.FromADDRpri);
 
     transaction.nonce = nonce;
     transaction.gasPrice = gasPrice;
@@ -264,11 +265,11 @@ exports.shareDetailsWithDoc = (req,res) => {
     transaction.data = etherUtils.getWeb3ContractInstance(contractABI, contractAddress)
         .methods.shareDetailsWithDoc(patPubKey, docPubKey).encodeABI();
 
-    let signedTransaction = wallet.sign(transaction);
+    const signedTransaction = wallet.sign(transaction);
     return signedTransaction
   })
   .then((signedTx) => {
-    let etherProvider = etherUtils.getEtherProvider();
+    const etherProvider = etherUtils.getEtherProvider();
     return etherProvider.sendTransaction(signedTx);
   })
   .then((_txHash) => {
@@ -289,4 +290,4 @@ exports.shareDetailsWithDoc = (req,res) => {
       message: 'Transaction could not be published. Some error occurred!!'
     });
   })
-}
+};
