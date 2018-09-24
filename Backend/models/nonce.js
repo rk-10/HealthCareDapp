@@ -2,7 +2,7 @@ let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 //schema for configuration
-let nonceValueSchema = Schema({
+const nonceValueSchema = Schema({
     key: {type: String, required: true},
     value: {type: Number,required:true}
 });
