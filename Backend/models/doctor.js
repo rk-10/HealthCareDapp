@@ -13,7 +13,7 @@ const doctorSchema = new Schema({
 
 doctorSchema.methods.ValidPassword = function(pwd) {
     const pass = crypto.createHmac('sha1', process.env.SECRETKEY).update(pwd).digest('hex');
-    return this.password == pass;
+    return this.password === pass;
 };
 
 doctorSchema.methods.SetPassword = function(pwd)  {
